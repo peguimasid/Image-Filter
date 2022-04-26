@@ -1,5 +1,5 @@
 <h1 align="center">Welcome to Image Filter 👋</h1>
-<p>🔊  Program to modify the volume of an audio file.</p>
+<p>📸  Program to apply image filters in .bmp images</p>
 
 ## Install
 
