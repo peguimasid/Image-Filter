@@ -1,0 +1,17 @@
+{
+  "files.associations": {
+    ".sequelizerc": "javascript",
+    ".stylelintrc": "json",
+    ".prettierrc": "json",
+    "*.tsx": "typescriptreact",
+    "__bit_reference": "c",
+    "bitset": "c",
+    "chrono": "c",
+    "map": "c",
+    "set": "c",
+    "unordered_map": "c",
+    "unordered_set": "c",
+    "algorithm": "c",
+    "ios": "c"
+  }
+}
