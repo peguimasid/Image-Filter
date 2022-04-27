@@ -84,5 +84,57 @@ void	reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void	blur(int height, int width, RGBTRIPLE image[height][width])
 {
-	return ;
+	RGBTRIPLE	copy[height][width];
+	RGBTRIPLE	u;
+	RGBTRIPLE	d;
+	RGBTRIPLE	l;
+	RGBTRIPLE	r;
+	RGBTRIPLE	lu;
+	RGBTRIPLE	ru;
+	RGBTRIPLE	ld;
+	RGBTRIPLE	rd;
+	int			red;
+	int			green;
+	int			blue;
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			copy[i][j] = image[i][j];
+		}
+	}
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			// Up pixel
+			u = copy[i - 1][j];
+			// Down pixel
+			d = copy[i + 1][j];
+			// Reft pixel
+			l = copy[i][j - 1];
+			// Right pixel
+			r = copy[i][j + 1];
+			// Left upper pixel
+			lu = copy[i - 1][j - 1];
+			// Right upper pixel
+			ru = copy[i - 1][j + 1];
+			// Left down pixel
+			ld = copy[i + 1][j - 1];
+			// Right down pixel
+			rd = copy[i + 1][j + 1];
+			red = (u.rgbtRed + d.rgbtRed + l.rgbtRed + r.rgbtRed + lu.rgbtRed
+					+ ru.rgbtRed + ld.rgbtRed + rd.rgbtRed) / 9;
+			green = (u.rgbtGreen + d.rgbtGreen + l.rgbtGreen + r.rgbtGreen
+					+ lu.rgbtGreen + ru.rgbtGreen + ld.rgbtGreen + rd.rgbtGreen)
+				/ 9;
+			blue = (u.rgbtBlue + d.rgbtBlue + l.rgbtBlue + r.rgbtBlue
+					+ lu.rgbtBlue + ru.rgbtBlue + ld.rgbtBlue + rd.rgbtBlue)
+				/ 9;
+			image[i][j].rgbtRed = red;
+			image[i][j].rgbtGreen = green;
+			image[i][j].rgbtBlue = blue;
+		}
+	}
 }
