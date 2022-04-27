@@ -1,70 +1,57 @@
 #include "helpers.h"
+#include "math.h"
 
 // Convert image to grayscale
 void	grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
-	BYTE	red;
-	BYTE	green;
-	BYTE	blue;
+	float	rgbGray;
 
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			red = image[i][j].rgbtRed;
-			green = image[i][j].rgbtGreen;
-			blue = image[i][j].rgbtBlue;
-			image[i][j].rgbtRed = (red + green + blue) / 3;
-			image[i][j].rgbtGreen = (red + green + blue) / 3;
-			image[i][j].rgbtBlue = (red + green + blue) / 3;
+			rgbGray = round((image[i][j].rgbtRed + image[i][j].rgbtGreen
+						+ image[i][j].rgbtBlue) / 3.00);
+			image[i][j]
+				.rgbtRed = rgbGray;
+			image[i][j].rgbtGreen = rgbGray;
+			image[i][j].rgbtBlue = rgbGray;
 		}
 	}
+}
+
+int	limit(int RGB)
+{
+	if (RGB > 255)
+	{
+		RGB = 255;
+	}
+	return (RGB);
 }
 
 // Convert image to sepia
 void	sepia(int height, int width, RGBTRIPLE image[height][width])
 {
-	BYTE	red;
-	BYTE	green;
-	BYTE	blue;
-	int		tr;
-	int		tg;
-	int		tb;
+	BYTE	r;
+	BYTE	g;
+	BYTE	b;
+	int		sepiaRed;
+	int		sepiaGreen;
+	int		sepiaBlue;
 
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			red = image[i][j].rgbtRed;
-			green = image[i][j].rgbtGreen;
-			blue = image[i][j].rgbtBlue;
-			tr = (0.393 * red) + (0.769 * green) + (0.189 * blue);
-			tg = (0.349 * red) + (0.686 * green) + (0.168 * blue);
-			tb = (0.272 * red) + (0.534 * green) + (0.131 * blue);
-			if (tr > 255)
-			{
-				image[i][j].rgbtRed = 255;
-			}
-			else
-			{
-				image[i][j].rgbtRed = tr;
-			}
-			if (tg > 255)
-			{
-				image[i][j].rgbtGreen = 255;
-			}
-			else
-			{
-				image[i][j].rgbtGreen = tg;
-			}
-			if (tb > 255)
-			{
-				image[i][j].rgbtBlue = 255;
-			}
-			else
-			{
-				image[i][j].rgbtBlue = tb;
-			}
+			r = image[i][j].rgbtRed;
+			g = image[i][j].rgbtGreen;
+			b = image[i][j].rgbtBlue;
+			sepiaRed = limit(round(0.393 * r + 0.769 * g + 0.189 * b));
+			sepiaGreen = limit(round(0.349 * r + 0.686 * g + 0.168 * b));
+			sepiaBlue = limit(round(0.272 * r + 0.534 * g + 0.131 * b));
+			image[i][j].rgbtRed = sepiaRed;
+			image[i][j].rgbtGreen = sepiaGreen;
+			image[i][j].rgbtBlue = sepiaBlue;
 		}
 	}
 }
@@ -72,11 +59,20 @@ void	sepia(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void	reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+	RGBTRIPLE	copy[height][width];
+
 	for (int i = 0; i < height; i++)
 	{
-		for (int j = width / 2; j >= 0; j--)
+		for (int j = 0; j < width; j++)
 		{
-			image[i][width - j + 1] = image[i][j];
+			copy[i][j] = image[i][j];
+		}
+	}
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = width; j >= 0; j--)
+		{
+			image[i][width - j - 1] = copy[i][j];
 		}
 	}
 }
